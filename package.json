@@ -1,0 +1,27 @@
+{
+    "author": "SweetDreamZzZ",
+    "bugs": {
+        "url": "https://github.com/SweetDreamzZz/saucenao-search/issues"
+    },
+    "description": "A simple library for interacting with the SauceNAO",
+    "devDependencies": {
+        "typescript": "^4.3.4"
+    },
+    "homepage": "https://github.com/SweetDreamzZz/saucenao-search#readme",
+    "keywords": [
+        "saucenao",
+        "search",
+        "sweetdream"
+    ],
+    "license": "MIT",
+    "main": "index.js",
+    "name": "saucenao-search",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/SweetDreamzZz/saucenao-search.git"
+    },
+    "scripts": {
+        "build": "tsc"
+    },
+    "version": "1.0.0"
+}
