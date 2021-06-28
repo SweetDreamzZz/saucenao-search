@@ -1,6 +1,6 @@
 import { IRawHeader } from "../../api/schemas/response";
 import { Context, FactoryContextOptions } from "./context";
-import { kSerializeData, pickProperties } from "../../utils";
+import { kSerializeData, pickProperties, removeHTMLTags } from "../../utils";
 
 export type HeaderContextOptions = FactoryContextOptions<IRawHeader>
 
@@ -97,6 +97,13 @@ export class HeaderContext extends Context<
      */
     public get resultsReturned(): number {
         return this.payload.results_returned;
+    }
+
+    /**
+     * Returns the error message
+     */
+    public get message(): string | undefined {
+        return removeHTMLTags(this.payload.message as string);
     }
 
     /**

@@ -13,6 +13,8 @@ export * from './fakku';
 export * from './furaffinity';
 export * from './furrynetwork';
 export * from './gelbooru';
+export * from './hentai'
+export * from './hmagazines'
 export * from './idolcomplex';
 export * from './konachan';
 export * from './madokami';
@@ -20,7 +22,6 @@ export * from './mangadex';
 export * from './market2d';
 export * from './medibang';
 export * from './movies';
-export * from './hentai';
 export * from './nijie';
 export * from './pawoo';
 export * from './pixiv';

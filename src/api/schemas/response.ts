@@ -84,6 +84,7 @@ export interface IRawHeader {
     query_image_display: string;
     query_image: string;
     results_returned: number;
+    message?: string;
 }
 
 export interface IRawResult<T = IRawData> {

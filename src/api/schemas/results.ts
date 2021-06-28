@@ -1,3 +1,9 @@
+export interface IRawHMagazines {
+    title: string;
+    part: string;
+    date: string;
+}
+
 export interface IRawPixivData {
     ext_urls: string[];
     title: string;

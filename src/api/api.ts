@@ -100,7 +100,7 @@ export class API {
 
         if (result.header.status !== 0) {
             throw new APIError({
-                message: `[Sauce Response Error]: ${result.header.status > 0 ? "Server" : "Client"}-side error`
+                message: `[Sauce Response Error]: ${result.header.message}`
             });
         }
 

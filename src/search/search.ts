@@ -7,7 +7,8 @@ import {
     SearchIndexes,
     SearchOutputType,
 
-    isURL
+    isURL,
+    unescapeHTML
 } from "../utils";
 
 import { IAPISearchParams } from "../api/types";
@@ -18,6 +19,7 @@ import { ResponseContext } from "../structures/contexts/response";
 import {
     ResultContext,
 
+    HMagazinesResultContext,
     PixivResultContext,
     SeigaResultContext,
     DanbooruResultContext,
@@ -50,8 +52,13 @@ import {
 } from "../structures/contexts/results";
 import { HeaderContext } from "../structures/contexts/header";
 import { ValidateError } from "../errors/validate";
+import { IRawData } from "../api/schemas/response";
 
 const contexts: [number[], Constructor<ResultContext>][] = [
+    [
+        [0],
+        HMagazinesResultContext
+    ],
     [
         [5, 6],
         PixivResultContext,
@@ -215,7 +222,7 @@ export interface ISearchOptions {
          *
          * @default 999
          */
-        index: SearchIndexes
+        index?: SearchIndexes
 
         /**
          * Include specific indexes from mask
@@ -376,6 +383,13 @@ export class Search {
                 }),
                 results: rawSearchResponse.results.map(result => {
                     const Context = resultsContexts[result.header.index_id];
+
+                    result.data = <IRawData>Object.fromEntries(
+                        Object.entries(result.data)
+                            .map(([k, v]) => (
+                                [k, typeof v === 'string' ? unescapeHTML(v) : v]
+                            ))
+                    );
 
                     return new Context({
                         payload: result

@@ -6,9 +6,12 @@ const br = /<br>/g;
 const amp = /&amp;/g;
 const quot = /&quot;/g;
 
+export const removeHTMLTags = (html: string): string => (
+    html.replace(/<[^>]*>/g, "")
+);
+
 export const unescapeHTML = (text: string): string => (
-    text
-        .replace(lt, '<')
+    text.replace(lt, '<')
         .replace(qt, '>')
         .replace(br, '\n')
         .replace(amp, '&')
@@ -29,7 +32,7 @@ export const pickProperties = <
     return copies;
 };
 
-export const calculateIndexMask = (indexes: SearchIndexesMasks[]): string => (
+export const generateIndexMask = (indexes: SearchIndexesMasks[]): string => (
     indexes.reduce((acc, index) => BigInt(acc) | BigInt(index), 0n).toString()
 );
 
