@@ -1,26 +1,19 @@
 import {
-    IRaw2DMarketData,
     IRawAnimeData,
     IRawAnimePicturesData,
     IRawArtStationData,
-    IRawBcyCosplayData,
-    IRawBcyIllustData,
     IRawDanbooruData,
     IRawDeviantArtData,
     IRawE621Data,
-    IRawEHentaiData,
     IRawFakkuData,
     IRawFurAffinityData,
     IRawFurryNetworkData,
     IRawGelbooruData,
-    IRawHAnimeData,
     IRawIdolComplexData,
     IRawKonachanData,
     IRawMadokamiData,
-    IRawMangadexData,
     IRawMedibangData,
     IRawMoviesData,
-    IRawNHentaiData,
     IRawNijieData,
     IRawPawooData,
     IRawPixivData,
@@ -30,7 +23,12 @@ import {
     IRawSeigaData,
     IRawShowsData,
     IRawTwitterData,
-    IRawYandereData
+    IRawYandereData,
+    IRawHentai,
+    IRawDrawrData,
+    IRawMarket2DData,
+    IRawBcyData,
+    IRawMangaDexData
 } from "./results";
 
 export type IRawData =
@@ -38,14 +36,14 @@ export type IRawData =
     | IRawPixivHistoricalData
     | IRawSeigaData
     | IRawDanbooruData
+    | IRawDrawrData
     | IRawNijieData
     | IRawYandereData
     | IRawFakkuData
-    | IRawNHentaiData
-    | IRaw2DMarketData
+    | IRawHentai
+    | IRawMarket2DData
     | IRawMedibangData
     | IRawAnimeData
-    | IRawHAnimeData
     | IRawMoviesData
     | IRawShowsData
     | IRawGelbooruData
@@ -54,50 +52,52 @@ export type IRawData =
     | IRawAnimePicturesData
     | IRawE621Data
     | IRawIdolComplexData
-    | IRawBcyIllustData
-    | IRawBcyCosplayData
+    | IRawBcyData
     | IRawPortalGraphicsData
     | IRawDeviantArtData
     | IRawPawooData
     | IRawMadokamiData
-    | IRawMangadexData
-    | IRawEHentaiData
+    | IRawMangaDexData
     | IRawArtStationData
     | IRawFurAffinityData
     | IRawTwitterData
     | IRawFurryNetworkData;
 
-export interface IRawSearch {
-    header: {
-        user_id: string;
-        account_type: string;
-        short_limit: string;
-        long_limit: number;
-        long_remaining: number;
-        status: number;
-        results_requested: number;
-        index: {
-            [x: string]: {
-                status: number;
-                parent_id: number;
-                id: number;
-                results: number;
-            }
-        };
-        search_depth: string;
-        minimum_similarity: number;
-        query_image_display: string;
-        query_image: string;
-        results_returned: number;
-    };
-    results: {
-        header: {
-            similarity: string;
-            thumbnail: string;
-            index_id: string;
-            index_name: string;
-            dupes: number;
+export interface IRawHeader {
+    user_id: string;
+    account_type: string;
+    short_limit: string;
+    long_limit: number;
+    long_remaining: number;
+    status: number;
+    results_requested: number;
+    index: {
+        [x: string]: {
+            status: number;
+            parent_id: number;
+            id: number;
+            results: number;
         }
-        data: IRawData;
-    }[];
+    };
+    search_depth: string;
+    minimum_similarity: number;
+    query_image_display: string;
+    query_image: string;
+    results_returned: number;
+}
+
+export interface IRawResult<T = IRawData> {
+    header: {
+        similarity: string;
+        thumbnail: string;
+        index_id: number;
+        index_name: string;
+        dupes: number;
+    }
+    data: T;
+}
+
+export interface IRawSearch {
+    header: IRawHeader;
+    results: IRawResult[];
 }

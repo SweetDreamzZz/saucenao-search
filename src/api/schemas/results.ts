@@ -63,7 +63,11 @@ export interface IRawNHentaiData {
     jp_name: string;
 }
 
-export interface IRaw2DMarketData {
+export interface IRawEHentaiData extends IRawNHentaiData {}
+
+export type IRawHentai = IRawNHentaiData | IRawEHentaiData
+
+export interface IRawMarket2DData {
     ext_urls: string[];
     creator: string;
     source: string;
@@ -85,8 +89,6 @@ export interface IRawAnimeData {
     year: string;
     est_time: string;
 }
-
-export interface IRawHAnimeData extends IRawAnimeData {}
 
 export interface IRawMoviesData {
     ext_urls: string[];
@@ -165,6 +167,8 @@ export interface IRawBcyIllustData {
 
 export interface IRawBcyCosplayData extends IRawBcyIllustData {}
 
+export type IRawBcyData = IRawBcyIllustData | IRawBcyCosplayData
+
 export interface IRawPortalGraphicsData {
     ext_urls: string[];
     pg_id: number;
@@ -198,7 +202,7 @@ export interface IRawMadokamiData {
     type: string;
 }
 
-export interface IRawMangadexData {
+export interface IRawMangaDexData {
     ext_urls: string[];
     md_id: number;
     mu_id: number;
@@ -208,8 +212,6 @@ export interface IRawMangadexData {
     artist: string;
     author: string;
 }
-
-export interface IRawEHentaiData extends IRawNHentaiData {}
 
 export interface IRawArtStationData {
     ext_urls: string[]

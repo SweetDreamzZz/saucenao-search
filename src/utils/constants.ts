@@ -1,3 +1,5 @@
+export const kSerializeData = Symbol('kSerializeData');
+
 /**
  * Search output type
  */

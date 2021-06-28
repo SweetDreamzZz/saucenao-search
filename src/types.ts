@@ -1,11 +1,6 @@
-import { ISearchOptions, SearchSourceValue } from "./search";
+import { ISearchOptions } from "./search";
 
-export type SourceValueType = 'stream' | 'buffer' | 'url' | 'file' | null;
-
-export interface ISourceValue {
-    type: SourceValueType;
-    value: SearchSourceValue
-}
+export type Constructor<T = {}> = new (...args: any[]) => T;
 
 interface ISauceOptions {
     apiKey: string;
