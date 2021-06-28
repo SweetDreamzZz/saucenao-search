@@ -7,8 +7,6 @@ import { IAPISearchParams } from "./types";
 import { APIError } from "../errors/api";
 import { IRawSearch } from "./schemas/response";
 
-import { ISourceValue } from "../types";
-
 export interface IAPIOptions {
     /**
      * SauceNAO API key
@@ -61,7 +59,12 @@ export class API {
         };
     }
 
-    public async search(source: ISourceValue, params: IAPISearchParams): Promise<IRawSearch> {
+    public async search(params: IAPISearchParams): Promise<IRawSearch> {
+        console.log(new URLSearchParams(
+            Object.entries(params)
+                .filter(({ 1: value }) => Boolean(value))
+        ));
+
         const controller = new AbortController();
 
         const timeout = setTimeout(() => controller.abort(), this.options.apiTimeout);
@@ -80,7 +83,7 @@ export class API {
                 },
                 body: new URLSearchParams(
                     Object.entries(params)
-                        .filter(({ 1: value }) => value !== undefined)
+                        .filter(({ 1: value }) => Boolean(value))
                 )
             });
 

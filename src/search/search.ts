@@ -1,15 +1,15 @@
 import { API } from "../api/";
 
-import { SearchSourceValue } from "./types";
 import {
     SearchBackgroundColor,
     SearchDedupe,
     SearchHideExplicit,
     SearchIndexes,
     SearchOutputType
-} from "../utils/constants";
+} from "../utils";
 
-import * as helpers from '../utils/helpers';
+import { IAPISearchParams } from "../api/types";
+import { IRawSearch } from "../api/schemas/response";
 
 export interface ISearchOptions {
     /**
@@ -58,57 +58,82 @@ export interface ISearchOptions {
     /**
      * Number of results requested
      */
-    resultsCount: number;
+    resultsCount?: number;
 
     /**
      *  Search depth, deeper searches are slower but can pull out additional matches
      *
      * @default 128
      */
-    depth: number;
+    depth?: number;
 
     /**
      * Minimal similarity to display. Adaptively reduced unless forced with ! i.e. "55!"
      *
      * @default 52
      */
-    minSimilarity: number | string;
+    minSimilarity?: number | string;
 
     /**
      * Maximum similarity yield modifier
      *
      * @default 20
      */
-    bias: number;
+    bias?: number;
 
     /**
      * Minimal similarity to active priority yield mode
      *
      * @default 62
      */
-    minBias: number;
+    minBias?: number;
 
     /**
      * GIF/Video frame
      */
-    frame: number;
+    frame?: number;
 
     /**
      * Background color
      */
-    bgColor: SearchBackgroundColor
+    bgColor?: SearchBackgroundColor
 
     /**
      * Hides explicit content (html only)
      */
-    hideExplicit: SearchHideExplicit
+    hideExplicit?: SearchHideExplicit
 
     /**
      * Removes duplicate results
      *
      * @default 2
      */
-    dedupe: SearchDedupe;
+    dedupe?: SearchDedupe;
+
+    /**
+     * Crop image params
+     */
+    crop?: {
+        /**
+         * X coordinate of the first point
+         */
+        x1: number;
+
+        /**
+         * Y coordinate of the first point
+         */
+        y1: number;
+
+        /**
+         * Y coordinate of the first point
+         */
+        x2: number;
+
+        /**
+         * Y coordinate of the second point
+         */
+        y2: number;
+    }
 }
 
 export class Search {
@@ -124,15 +149,6 @@ export class Search {
 
         this.options = {
             outputType: SearchOutputType.JSON,
-            resultsCount: 8,
-            dedupe: SearchDedupe.All,
-            minSimilarity: 52,
-            depth: 128,
-            bias: 20,
-            minBias: 62,
-            frame: 1,
-            bgColor: SearchBackgroundColor.None,
-            hideExplicit: SearchHideExplicit.None,
             database: {
                 index: SearchIndexes.All,
             },
@@ -151,10 +167,8 @@ export class Search {
     /**
      * Returns the search result
      */
-    public async it(source: SearchSourceValue): Promise<void> {
-        const sourceValue = helpers.checkSourceValue(source);
-
-        const rawSearch = await this.api.search(sourceValue, {
+    public async it(params: Partial<IAPISearchParams> & { url: string }): Promise<IRawSearch> {
+        const rawSearch = await this.api.search({
             output_type: this.options.outputType,
             api_key: this.options.apiKey,
             numres: this.options.resultsCount,
@@ -167,8 +181,13 @@ export class Search {
             hide: this.options.hideExplicit,
             dedupe: this.options.dedupe,
             db: this.options.database.index,
-            dbmask: this.options.database?.includeMask,
-            dbmaski: this.options.database?.excludeMask
+            dbmask: this.options.database.includeMask,
+            dbmaski: this.options.database.excludeMask,
+            crop: Object.values(this.options.crop || {}).join("|"),
+
+            ...params
         });
+
+        return rawSearch;
     }
 }

@@ -20,22 +20,63 @@ export const enum SearchOutputType {
  * Search dedupe type
  */
 export const enum SearchDedupe {
+    /**
+     * No result deduping
+     */
     Disable,
-    ConsolidateBooruResults,
+
+    /**
+     * Consolidate booru results and dedupe by item identifier
+     */
+    Booru,
+
+    /**
+     * All implemented dedupe methods such as by series name
+     */
     All
 }
 
 export const enum SearchHideExplicit {
+    /**
+     * Don't hide explicit content
+     */
     None,
+
+    /**
+     * Hide explicitly explicit content
+     */
     Known,
+
+    /**
+     * Hide presumably explicit content
+     */
     Suspected,
+
+    /**
+     * Hide all explicit content
+     */
     All
 }
 
 export const enum SearchBackgroundColor {
+    /**
+     * Without background
+     */
     None = 'none',
+
+    /**
+     * White background
+     */
     White = 'white',
+
+    /**
+     * Black background
+     */
     Black = 'black',
+
+    /**
+     * Gray background
+     */
     Gray = 'grey'
 }
 
